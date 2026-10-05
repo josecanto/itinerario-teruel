@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ademuz y Teruel en familia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: cabecera con ruta, barra de días fija y una columna cronológica por día con hora a la izquierda. */
+:root{
+  --bg:#f3f5f2;
+  --surface:#ffffff;
+  --fg:#1d2a26;
+  --muted:#5b6a64;
+  --line:#d5ddd8;
+  --accent:#1f6b5c;      /* verde esmalte mudéjar */
+  --accent-fg:#ffffff;
+  --accent-soft:#dcebe6;
+  --warm:#a8651d;        /* ocre, solo para avisos */
+  --warm-soft:#f4e7d3;
+  --font-display:"Young Serif",Georgia,serif;
+  --font-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121a17;--surface:#1a2420;--fg:#e7eeea;--muted:#9bada5;--line:#2e3b36;
+    --accent:#5fc2aa;--accent-fg:#0d1a16;--accent-soft:#1f3a33;--warm:#e0a85c;--warm-soft:#3a2d1a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121a17;--surface:#1a2420;--fg:#e7eeea;--muted:#9bada5;--line:#2e3b36;
+  --accent:#5fc2aa;--accent-fg:#0d1a16;--accent-soft:#1f3a33;--warm:#e0a85c;--warm-soft:#3a2d1a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:860px;margin-inline:auto}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;text-wrap:balance;margin:0}
+header{padding-block:40px 24px}
+.eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-size:clamp(2rem,6vw,3.2rem);line-height:1.1;margin-block:8px 12px}
+.lead{max-width:62ch;color:var(--muted);margin:0}
+.base{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:20px;font-size:.95rem}
+.base span{min-width:0}
+nav.days{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto}
+nav.days a{flex:1 0 auto;text-align:center;text-decoration:none;color:var(--fg);padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-weight:600;font-size:.9rem;white-space:nowrap}
+nav.days a small{display:block;font-weight:400;color:var(--muted);font-size:.75rem}
+nav.days a:hover{border-color:var(--accent)}
+section.day{padding-block:40px 8px;scroll-margin-top:70px}
+.day-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:baseline;margin-bottom:6px}
+.day-head h2{font-size:clamp(1.5rem,4vw,2rem)}
+.date{color:var(--accent);font-weight:700;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase}
+.summary{color:var(--muted);margin:0 0 20px;max-width:64ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chip{font-size:.82rem;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--fg);font-variant-numeric:tabular-nums}
+ol.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+ol.tl li{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px}
+.time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent);padding-top:14px;font-size:.95rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.card h3{font-size:1.1rem;margin-bottom:4px}
+.card p{margin:4px 0 0}
+.kid{margin-top:8px;font-size:.92rem;color:var(--muted)}
+.kid b{color:var(--fg)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.links a{font-size:.85rem;font-weight:600;text-decoration:none;padding:6px 12px;border-radius:6px;border:1px solid var(--accent);color:var(--accent)}
+.links a.map{background:var(--accent);color:var(--accent-fg)}
+.links a:hover{opacity:.85}
+.note{background:var(--warm-soft);border-left:4px solid var(--warm);padding:12px 16px;border-radius:6px;margin-top:20px;font-size:.93rem}
+.note b{color:var(--warm)}
+.panel{margin-top:48px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.panel h2{font-size:1.4rem;margin-bottom:12px}
+.panel ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+footer{margin-top:32px;font-size:.85rem;color:var(--muted)}
+footer ul{padding-left:18px}
+@media (max-width:520px){
+  ol.tl li{grid-template-columns:1fr;gap:4px}
+  .time{padding-top:0}
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Viernes 9 – lunes 12 de octubre de 2026</div>
+  <h1>Ademuz y Teruel en familia</h1>
+  <p class="lead">Cuatro días con base en Veguillas de la Sierra: la ruta de las cascadas del Bohílgues en Ademuz, la mañana del viernes en Dinópolis y un domingo entre la Rambla de Barrachina y el casco antiguo de Teruel. Pensado para dos adultos y un niño de 5 años.</p>
+  <div class="base">
+    <span><b>Base:</b> Veguillas de la Sierra (Teruel)</span>
+    <span><b>A Teruel:</b> unos 46 km por la A-1513</span>
+    <span><b>A Ademuz:</b> en torno a 1 h en coche (confírmalo en el mapa)</span>
+  </div>
+  <div class="links">
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=Veguillas+de+la+Sierra+Teruel" target="_blank" rel="noopener">Veguillas en el mapa</a>
+    <a href="https://turismocomarcateruel.com/en/municipios-2/veguillas-de-la-sierra-2/" target="_blank" rel="noopener">Info de Veguillas</a>
+  </div>
+</header>
+
+<nav class="days" aria-label="Días">
+  <a href="#d1">Vie 9<small>Dinópolis</small></a>
+  <a href="#d2">Sáb 10<small>Cascadas Bohílgues</small></a>
+  <a href="#d3">Dom 11<small>Barrachina y Teruel</small></a>
+  <a href="#d4">Lun 12<small>Sierra y vuelta</small></a>
+</nav>
+
+<section class="day" id="d1">
+  <div class="day-head"><h2>Dinópolis por la mañana y llegada</h2><span class="date">Viernes 9</span></div>
+  <p class="summary">Vais directos al parque de dinosaurios nada más llegar a Teruel y por la tarde os instaláis en Veguillas. Con 5 años es el mejor arranque posible.</p>
+  <div class="chips"><span class="chip">Abre a las 10:00</span><span class="chip">Parque ~4 h</span><span class="chip">Veguillas a ~50 min</span></div>
+  <ol class="tl">
+    <li><div class="time">10:00</div><div class="card">
+      <h3>Dinópolis Teruel</h3>
+      <p>Llegad a la apertura para tener las primeras horas con menos gente. Empezad por las atracciones principales y dejad los espectáculos para cuando el peque baje de energía. Los menores de 3 años entran gratis; la entrada junior (4 a 11 años) parte de unos 27 € y la de adulto de unos 34 €, según la web de venta. Compra las entradas por adelantado.</p>
+      <p class="kid"><b>Con el peque:</b> gorra, muda y un snack en la mochila. Comprueba la altura mínima de las atracciones al llegar.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Din%C3%B3polis+Teruel" target="_blank" rel="noopener">Mapa</a><a href="https://www.dinopolis.com" target="_blank" rel="noopener">Web oficial</a><a href="https://www.pa-community.com/parques/dinopolis/horarios-calendario" target="_blank" rel="noopener">Horarios</a></div>
+    </div></li>
+    <li><div class="time">14:00</div><div class="card">
+      <h3>Comida</h3>
+      <p>Hay restauración en el recinto, o podéis comer en Teruel y dejar el parque para otro momento si el niño aguanta mejor así. Confirma en taquilla si se puede salir y volver a entrar.</p>
+    </div></li>
+    <li><div class="time">16:00</div><div class="card">
+      <h3>Compra de comida y ruta a Veguillas</h3>
+      <p>Haced la compra en Teruel antes de subir: en Veguillas hay muy poca oferta. Son unos 46 km por la A-1513.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/dir/?api=1&origin=Din%C3%B3polis+Teruel&destination=Veguillas+de+la+Sierra+Teruel&travelmode=driving" target="_blank" rel="noopener">Ruta Dinópolis → Veguillas</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=supermercado+Teruel" target="_blank" rel="noopener">Supermercados en Teruel</a></div>
+    </div></li>
+    <li><div class="time">17:30</div><div class="card">
+      <h3>Instalación y paseo por Veguillas</h3>
+      <p>Si queda energía, vuelta corta por el pueblo y la iglesia de la Santísima Trinidad (barroca, siglo XVIII) con la luz de la tarde.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Veguillas+de+la+Sierra+Teruel" target="_blank" rel="noopener">Veguillas</a><a href="https://turismocomarcateruel.com/en/municipios-2/veguillas-de-la-sierra-2/" target="_blank" rel="noopener">Qué ver</a></div>
+    </div></li>
+    <li><div class="time">20:30</div><div class="card">
+      <h3>Cena en casa y descanso</h3>
+      <p>Después de un día largo, cena sencilla y a dormir pronto.</p>
+    </div></li>
+  </ol>
+  <div class="note"><b>Ojo:</b> el viaje de llegada hay que sumarlo antes de las 10:00. Si venís de lejos, valorad dormir la noche anterior cerca de Teruel o entrar al parque un poco más tarde. A primeros de octubre anochece sobre las 20:00 y la madrugada en la sierra puede rondar los 3–6 °C.</div>
+</section>
+
+<section class="day" id="d2">
+  <div class="day-head"><h2>Cascadas del Bohílgues y Ademuz</h2><span class="date">Sábado 10</span></div>
+  <p class="summary">La ruta del río Bohílgues recorre cascadas, pozas y antiguos molinos harineros a las puertas de Ademuz. Se hace por la mañana, con el niño aún fresco, y la tarde queda para el castillo y el pueblo.</p>
+  <div class="chips"><span class="chip">~1 h de ida</span><span class="chip">Ruta ~5 km, 3 h completa</span><span class="chip">Nosotros: ida y vuelta corta</span></div>
+  <ol class="tl">
+    <li><div class="time">09:30</div><div class="card">
+      <h3>Salida hacia Ademuz</h3>
+      <p>Desayuno tranquilo y carretera. Lleva agua, fruta, bocadillos, una bolsa para la ropa mojada y calzado de repuesto.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/dir/?api=1&origin=Veguillas+de+la+Sierra+Teruel&destination=Oficina+de+Turismo+Ademuz&travelmode=driving" target="_blank" rel="noopener">Ruta Veguillas → Ademuz</a></div>
+    </div></li>
+    <li><div class="time">10:45</div><div class="card">
+      <h3>Oficina de Turismo de Ademuz</h3>
+      <p>Punto de salida de la ruta, junto al puente y cerca del cuartel de la Guardia Civil. Aparca por la zona, pide el folleto y pregunta cómo está el caudal y el estado del sendero.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Oficina+de+Turismo+Ademuz" target="_blank" rel="noopener">Mapa</a></div>
+    </div></li>
+    <li><div class="time">11:00</div><div class="card">
+      <h3>Ruta del río Bohílgues</h3>
+      <p>La primera cascada aparece nada más empezar y el agua os acompaña todo el camino, con cascadas, pozas y los molinos de época musulmana. La ruta completa son algo más de 5 km y unas 3 h; con un niño de 5 años lo razonable es ir hasta donde aguante y volver por el mismo camino, con 1,5 a 2 h en total. Marcada como PR-CV 131.6.</p>
+      <p class="kid"><b>Con el peque:</b> ir de la mano en los tramos junto al agua y en las piedras mojadas. Puede mojarse los pies en las pozas, pero en octubre el agua está fría. Llevad cambio de calcetines.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=R%C3%ADo+Boh%C3%ADlgues+Ademuz" target="_blank" rel="noopener">Río Bohílgues</a><a href="https://www.hoteles.net/valencia/requena/rio-bohilgues-ademuz.html" target="_blank" rel="noopener">Descripción</a><a href="https://mappingspain.com/the-bohilgues-trail-valencia/" target="_blank" rel="noopener">The Bohilgues Trail</a><a href="https://senders.femecv.com/en/sendero/ver/pr-cv-131-6" target="_blank" rel="noopener">FEMECV</a></div>
+    </div></li>
+    <li><div class="time">13:30</div><div class="card">
+      <h3>Comida en Ademuz</h3>
+      <p>Picnic junto al río o comida en un restaurante del pueblo. Es sábado, mejor reservar o llegar pronto.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=restaurantes+Ademuz" target="_blank" rel="noopener">Restaurantes en Ademuz</a></div>
+    </div></li>
+    <li><div class="time">15:30</div><div class="card">
+      <h3>Casco antiguo y castillo de Ademuz</h3>
+      <p>Calles empinadas, plaza y las ruinas del castillo con vistas al valle del Turia. Subida corta con pendiente.</p>
+      <p class="kid"><b>Con el peque:</b> es un castillo de verdad; vigilad los bordes y los desniveles sin vallas.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Castillo+de+Ademuz" target="_blank" rel="noopener">Castillo</a><a href="https://www.comunitatvalenciana.com/es/valencia/ademuz/zones-d-interior/el-rincon-de-ademuz" target="_blank" rel="noopener">Info turística</a></div>
+    </div></li>
+    <li><div class="time">17:00</div><div class="card">
+      <h3>Opcional: Castielfabib, o vuelta a Veguillas</h3>
+      <p>Si el niño tiene energía, Castielfabib es un pueblo de piedra con restos de castillo y vistas a la Muela de los Tres Reinos, a poca distancia. Si no, volved directos y cenad pronto.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Castielfabib" target="_blank" rel="noopener">Castielfabib</a><a class="map" href="https://www.google.com/maps/dir/?api=1&origin=Ademuz+Valencia&destination=Veguillas+de+la+Sierra+Teruel&travelmode=driving" target="_blank" rel="noopener">Ruta de vuelta</a></div>
+    </div></li>
+  </ol>
+  <div class="note"><b>Antes de ir:</b> las fuentes que he consultado no coinciden en el recorrido exacto (una habla de unos 5 km desde Ademuz, la ficha oficial de la FEMECV lista otra variante de 13 km entre Vallanca y Casas Altas). Usa la salida del puente de la oficina de turismo y confirma allí el tramo. Si llueve o el sendero está resbaladizo, cambia la ruta por el castillo y el casco antiguo.</div>
+</section>
+
+<section class="day" id="d3">
+  <div class="day-head"><h2>Rambla de Barrachina y Teruel</h2><span class="date">Domingo 11</span></div>
+  <p class="summary">Mañana en un paisaje de cañones rojos, tipo oeste americano, a pocos kilómetros de la ciudad. Después, el casco antiguo mudéjar de Teruel, Patrimonio de la Humanidad.</p>
+  <div class="chips"><span class="chip">Rambla 1,5–2 h</span><span class="chip">Casco antiguo 3 h</span><span class="chip">Comida en Teruel</span></div>
+  <ol class="tl">
+    <li><div class="time">09:00</div><div class="card">
+      <h3>Salida hacia la Rambla de Barrachina</h3>
+      <p>Se accede desde la N-330 (Teruel–Cuenca), junto a la pedanía de Villaspesa. No hay servicios en la zona: llevad agua, gorra, calzado cerrado y algo de picar.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/dir/?api=1&origin=Veguillas+de+la+Sierra+Teruel&destination=Rambla+de+Barrachina+Teruel&travelmode=driving" target="_blank" rel="noopener">Ruta desde Veguillas</a></div>
+    </div></li>
+    <li><div class="time">10:00</div><div class="card">
+      <h3>Rambla de Barrachina y Cañón Rojo</h3>
+      <p>Unas 65 hectáreas de formaciones erosionadas de color rojo y ocre, con paredes de hasta 80 m. El tramo más fotogénico es el Cañón Rojo, un desfiladero estrecho. La visita de solo la rambla lleva 2–3 h; con un niño de 5 años, entrad hasta el cañón y volved, sin subir a la Muela de Teruel (la ruta circular de unos 12 km no es para este día).</p>
+      <p class="kid"><b>Con el peque:</b> es un barranco de arena y arcilla, ideal para explorar. Vigilad las paredes sueltas y no os separéis de él en los pasos estrechos.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Rambla+de+Barrachina+Teruel" target="_blank" rel="noopener">Mapa</a><a href="https://www.eldebate.com/estilo-vida/viajar/20250403/asi-rambla-barrachina-canon-colorado-aragones-johnny-depp-rueda-anuncio_284575.html" target="_blank" rel="noopener">Más información</a><a href="https://www.picuco.com/es-es/attractions/rambla-de-barrachina" target="_blank" rel="noopener">Ficha de la rambla</a></div>
+    </div></li>
+    <li><div class="time">12:15</div><div class="card">
+      <h3>Plaza del Torico</h3>
+      <p>El corazón de la ciudad, con la columna del toro, la plaza porticada y las casas modernistas. Aparca en un aparcamiento cercano y camina.</p>
+      <p class="kid"><b>Con el peque:</b> le encantará buscar el Torico y la leyenda del toro con la estrella.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/dir/?api=1&origin=Rambla+de+Barrachina+Teruel&destination=Plaza+del+Torico+Teruel&travelmode=driving" target="_blank" rel="noopener">Ruta desde la rambla</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Plaza+del+Torico+Teruel" target="_blank" rel="noopener">Mapa</a><a href="https://www.teruel.es" target="_blank" rel="noopener">Ayuntamiento</a></div>
+    </div></li>
+    <li><div class="time">13:45</div><div class="card">
+      <h3>Comida en Teruel</h3>
+      <p>Jamón de Teruel, migas o ternasco. En domingo conviene reservar.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=restaurantes+centro+Teruel" target="_blank" rel="noopener">Restaurantes en Teruel</a></div>
+    </div></li>
+    <li><div class="time">15:30</div><div class="card">
+      <h3>Torres mudéjares y Escalinata</h3>
+      <p>Pasea hasta la torre de San Martín y la torre del Salvador, con su ornamentación de ladrillo y cerámica verde y blanca. Termina en la Escalinata neomudéjar.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Torre+de+San+Mart%C3%ADn+Teruel" target="_blank" rel="noopener">Torre San Martín</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Escalinata+Teruel" target="_blank" rel="noopener">Escalinata</a></div>
+    </div></li>
+    <li><div class="time">16:30</div><div class="card">
+      <h3>Los Amantes de Teruel</h3>
+      <p>Mausoleo de Isabel de Segura y Diego de Marcilla junto a la iglesia de San Pedro. Cuéntale la leyenda en versión corta.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Mausoleo+Amantes+de+Teruel" target="_blank" rel="noopener">Mapa</a><a href="https://www.amantesdeteruel.es" target="_blank" rel="noopener">Información y horarios</a></div>
+    </div></li>
+    <li><div class="time">17:30</div><div class="card">
+      <h3>Vuelta a Veguillas</h3>
+      <p>Unos 46 km por la A-1513. Llegaréis con luz.</p>
+      <div class="links"><a class="map" href="https://www.google.com/maps/dir/?api=1&origin=Teruel&destination=Veguillas+de+la+Sierra+Teruel&travelmode=driving" target="_blank" rel="noopener">Ruta de vuelta</a></div>
+    </div></li>
+  </ol>
+  <div class="note"><b>Con lluvia:</b> evitad la rambla. Es un cauce de arcilla que se vuelve resbaladizo y puede acumular agua; cambiad la mañana por el casco antiguo y el parque infantil. En domingo, algunos comercios cierran y los monumentos pueden tener horario reducido: mira horarios el día anterior.</div>
+</section>
+
+<section class="day" id="d4">
+  <div class="day-head"><h2>Naturaleza en Veguillas y regreso</h2><span class="date">Lunes 12 (festivo)</span></div>
+  <p class="summary">Mañana de paseo suave por el entorno de Veguillas, sin tráfico ni ciudades llenas, y vuelta a casa a primera hora de la tarde.</p>
+  <div class="chips"><span class="chip">Paseo 1–2 h</span><span class="chip">Sin conducción larga hasta la vuelta</span></div>
+  <ol class="tl">
+    <li><div class="time">09:30</div><div class="card">
+      <h3>Desayuno y recoger</h3>
+      <p>Deja el alojamiento recogido y el coche cargado antes de salir a caminar.</p>
+    </div></li>
+    <li><div class="time">10:30</div><div class="card">
+      <h3>Paseo por el sendero de la Cruz de los Tres Reinos</h3>
+      <p>Sendero local de Veguillas. Con 5 años, haced solo el tramo que os apetezca y dad la vuelta. Alternativa más corta: el mirador del Puntal de Marco o las sabinas de la zona del Saz.</p>
+      <p class="kid"><b>Con el peque:</b> que lleve su propia mochila con agua y busque piñas y piedras.</p>
+      <div class="links"><a href="https://turismocomarcateruel.com/wp-content/uploads/2021/06/VeguillasdelaSierra_senderodelacruzdelostresreinos-1.pdf" target="_blank" rel="noopener">Sendero (PDF)</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Veguillas+de+la+Sierra+Teruel" target="_blank" rel="noopener">Mapa</a></div>
+    </div></li>
+    <li><div class="time">13:00</div><div class="card">
+      <h3>Comida y salida</h3>
+      <p>Comida sencilla en casa o de camino, y regreso. Al ser el festivo de vuelta, sal con margen por si hay tráfico.</p>
+    </div></li>
+  </ol>
+  <div class="note"><b>Plan B con lluvia:</b> sustituye el paseo por un recorrido en coche por la zona y sal antes hacia casa.</div>
+</section>
+
+<div class="panel">
+  <h2>Antes de salir</h2>
+  <div class="cols">
+    <ul>
+      <li>Reservar el alojamiento y confirmar la hora de entrada.</li>
+      <li>Comprar entradas de Dinópolis y revisar horarios.</li>
+      <li>Reservar comidas del sábado y del lunes.</li>
+      <li>Descargar los mapas sin conexión: la cobertura falla en la sierra.</li>
+    </ul>
+    <ul>
+      <li>Ropa de capas, chubasquero y gorro.</li>
+      <li>Calzado cómodo y muda de repuesto para el niño.</li>
+      <li>Botiquín básico, agua y snacks.</li>
+      <li>Juegos o cuentos para el coche.</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <p>Los horarios son orientativos y las distancias aproximadas. Confirma aperturas y precios en las webs oficiales antes de salir. Fuentes:</p>
+  <ul>
+    <li><a href="https://turismocomarcateruel.com/en/municipios-2/veguillas-de-la-sierra-2/" target="_blank" rel="noopener">Turismo Comarca de Teruel: Veguillas de la Sierra</a></li>
+    <li><a href="https://www.comunitatvalenciana.com/es/valencia/ademuz/zones-d-interior/el-rincon-de-ademuz" target="_blank" rel="noopener">Comunitat Valenciana: El Rincón de Ademuz</a></li>
+    <li><a href="https://www.pa-community.com/parques/dinopolis/horarios-calendario" target="_blank" rel="noopener">Horarios y calendario de Dinópolis</a></li>
+  </ul>
+</footer>
+</div>
+
+</body>
+</html>
